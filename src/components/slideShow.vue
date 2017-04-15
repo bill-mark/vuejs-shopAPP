@@ -1,3 +1,4 @@
+<!-- 轮播图组件 -->
 <template>
 	<div class="slide-show" @mouseover="clearInv" @mouseout="runInv">
 		 <div class="slide-img">

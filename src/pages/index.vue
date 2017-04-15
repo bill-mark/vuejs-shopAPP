@@ -2,8 +2,7 @@
  <div class="index-wrap">
     <div class="index-left">
         <div class="index-left-block">
-        	 <h2>全部产品</h2>
-        	 
+        	 <h2>全部产品</h2>      	 
         	 <template v-for="product in productList">
         	 	 <h3>{{product.title}}</h3>
         	 	 <ul>
@@ -30,11 +29,11 @@
         <slide-show v-bind:slides="slides" :inv="invTime"></slide-show>
     	<div class="index-board-list">
     		<div class="index-board-item"
-                  v-for="(item,index) in boardList"
-                  v-bind:class="[
-                                 {'line-last' : index%2 !== 0},
-                                 'index-board-' + item.id
-                                ]" 
+             v-for="(item,index) in boardList"
+             v-bind:class="[
+                             {'line-last' : index%2 !== 0},
+                             'index-board-' + item.id
+                            ]" 
 
     		>
     			<div class="index-board-item-inner">
@@ -62,6 +61,7 @@ export default {
 	//created 表示组件创建后执行该函数
 	created: function () {
         this.$http.get('http://localhost:3000/getNewsList')
+        //this.$http.get('api/getNewsList')
         .then( (res) =>{
         	this.newsList= res.data
             //console.log(res.data)
