@@ -117,6 +117,16 @@
            确认购买
          </div>
       </my-dialog>
+      <my-dialog :is-show="isShowErrDialog" 
+                 @on-close="hideErrDialog"
+      >
+           支付失败
+      </my-dialog>
+      <check-order :isShowCheckDialog="isShowCheckOrder"
+                   order-id="orderId"
+                   @on-close-check-dialog="hideCheckOrder"         
+      >
+      </check-order>
   </div>
 </template>
 
@@ -128,6 +138,7 @@ import VMulChooser from '../../components/base/multiplyChooser'
 import Dialog from '../../components/base/dialog'
 import _ from 'lodash'
 import BankChooser from '../../components/bankChooser'
+import  CheckOrder from '../../components/checkOrder'
 export default {
   components: {
      VSelection,
@@ -135,7 +146,8 @@ export default {
      VCounter,
      VMulChooser,
      MyDialog: Dialog,
-     BankChooser
+     BankChooser,
+     CheckOrder
   },
   data () {
 	 return {
@@ -222,6 +234,12 @@ export default {
     hidePayDialog () {
        this.isShowPayDialog = false
     },
+    hideErrDialog () {
+       this.isShowErrDialog = false
+    },
+    hideCheckOrder () {
+      this.isShowCheckOrder = false
+    },
     onChangeBanks (bankObj) {
         this.bankId = bankObj.id
     },
@@ -240,8 +258,11 @@ export default {
        .then((res) => {
            this.orderId = res.data.orderId
           // console.log(this.orderId)
+           this.isShowCheckOrder= true  //弹出支付状态窗口
+           this.isShowPayDialog = false
        },(err) => {
-
+           this.isShowBuyDialog = false
+           this.isShowErrDialog = true
        })
     }
   },

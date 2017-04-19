@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { eventBus } from '../../eventBus'
 export default {
   props: {
   	selections: {
@@ -32,8 +33,15 @@ export default {
   	   nowIndex: 0	
   	}
   },
+  // mounted () {
+  //     eventBus.$on('reset-component',() => {
+  //         this.isDrop = false
+  //     })
+  // },
   methods: {
-  	toggleDrop () {
+  	toggleDrop (event) {
+     // event.stopPropagation()  //组止冒泡,8-1
+      //eventBus.$emit('reset-component') //实现点击第二个下拉框自动关闭第一个下拉框
   		this.isDrop = !this.isDrop
   	},
   	chooseSelection (index) {

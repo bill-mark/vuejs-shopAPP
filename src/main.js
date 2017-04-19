@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Layout from './components/layout'
 import VueRouter from 'vue-router'
 import IndexPage from './pages/index'
+import OrderListPage from './pages/orderList'
 import VueResource from 'vue-resource'
 import DetailPage from './pages/detail'
 import DetailAnaPage from './pages/detail/analysis'
@@ -17,6 +18,10 @@ let routes = [
    {
      path: '/',
      component: IndexPage
+   },
+   {
+     path: '/orderList',
+     component: OrderListPage
    },
    {
      path: '/detail',

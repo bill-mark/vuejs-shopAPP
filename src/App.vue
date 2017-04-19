@@ -3,9 +3,6 @@
        <keep-alive>  <!-- 缓存插件 -->
           <router-view></router-view>
        </keep-alive>   
-       <!-- <router-link to="/apple">to apple </router-link>
-       <br>
-       <router-link to="/banana">to banana </router-link> -->
   </div>
 </template>
 
