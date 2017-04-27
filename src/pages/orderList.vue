@@ -4,7 +4,14 @@
     <div class="order-list-choose">
       <div class="order-list-option">
         选择产品：
-        <v-selection :selections="products" @on-change="productChange"></v-selection>
+        <v-selection :selections="products" @on-change="productChange">
+        </v-selection>
+      </div>
+      
+      <div class="order-list-option">
+        选择产品2：
+        <v-selection :selections="products" @on-change="productChange">
+        </v-selection>
       </div>
 
       <div class="order-list-option">
@@ -25,12 +32,28 @@
     <div class="order-list-table">
       <table>
         <tr>
-          <th v-for="head in tableHeads" @click="changeOrderType(head)" :class="{active:head.active}">{{ head.label }}</th>
+          <th v-for="head in tableHeads" 
+              @click="changeOrderType(head)" 
+              :class="{active:head.active}"
+          >
+            {{ head.label }}
+          </th>
         </tr>
-        <tr v-for="item in tableData" :key="item.period">
-          <td v-for="head in tableHeads">{{ item[head.key] }}</td>
+        <tr v-for="item in tableData" 
+            :key="item.period"
+        >
+            <td v-for="head in tableHeads">
+                {{ item[head.key] }}
+            </td>
         </tr>
       </table>
+      <div class="table-pagenation">
+        <v-pagenation :total="total" 
+                      :pageSize="pageSize"
+                      @on-change="pageChange"
+        >
+        </v-pagenation>  
+      </div>
     </div>
   </div>
 </template>
@@ -38,11 +61,13 @@
 <script>
 import VSelection from '../components/base/selection'
 import VDatePicker from '../components/base/datepicker'
+import VPagenation from '../components/base/pagenation'
 import _ from 'lodash'
 export default {
   components: {
     VSelection,
-    VDatePicker
+    VDatePicker,
+    VPagenation
   },
   data () {
     return {
@@ -99,33 +124,59 @@ export default {
         }
       ],
       currentOrder: 'asc',
-      tableData: []
+     // tableData: [],
+      pageSize: 10,
+      offset: 0
     }
   },
-  watch: {
+  watch: {   //watch相对于计算属性computed能进行异步操作
     query () {
       this.getList()
     }
   },
+  computed: {
+    tableData () {  //mounted中ajax请求完成，tabledata会更新
+       return this.$store.getters.getOrderList
+    },
+    total () {
+       return this.$store.getters.getTotal
+    } 
+  },
   methods: {
     productChange (obj) {
-      this.productId = obj.value
-      this.getList()
+      //同步
+      this.$store.commit('updateParams',{
+        key:'productId',
+        val:obj.value
+      }) //key和val用来更新vuex中的state中的params
+      //异步
+      this.$store.dispatch('fetchOrderList')
     },
     getStartDate (date) {
-      this.startDate = date
-      this.getList()
+      this.$store.commit('updateParams',{
+        key:'startDate',
+        val:date
+      })
     },
     getEndDate (date) {
       this.endDate = date
       this.getList()
+    },
+    pageChange (offset) {
+      this.$store.commit('updateParams', {
+        key: 'offset',
+        val: offset * this.pageSize
+      })
+      this.$store.dispatch('refreshList')
     },
     getList () {
       let reqParams = {
         query: this.query,
         productId: this.productId,
         startDate: this.startDate,
-        endDate: this.endDate
+        endDate: this.endDate,
+        offset: this.offset,
+        pageSizeL: this.pageSize
       }
       this.$http.get('http://localhost:3000/getOrderList', reqParams)
       .then((res) => {
@@ -150,7 +201,9 @@ export default {
     }
   },
   mounted () {
-    this.getList()
+    //ajax请求,通过dispatch调用store中的action
+    this.$store.dispatch('fetchOrderList') 
+    //console.log(this.$store)
   }
 }
 </script>
@@ -203,4 +256,9 @@ export default {
 .order-list-table th.active {
   background: #35495e;
 }
+.table-pagenation {
+  padding: 15px;
+  text-align: right;
+}
 </style>
+

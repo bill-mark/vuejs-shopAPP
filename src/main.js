@@ -10,8 +10,9 @@ import DetailCouPage from './pages/detail/count'
 import DetailForPage from './pages/detail/forecast'
 import DetailPubPage from './pages/detail/publish'
 
-Vue.use(VueRouter) //全局启用路由
-Vue.use(VueResource)  //全局启用插件
+import Store from './store/index'
+Vue.use(VueRouter)     //全局启用路由
+Vue.use(VueResource)   //全局启用插件
 
 //在这里写的path全局路由出口都可以用
 let routes = [
@@ -55,7 +56,8 @@ let router = new VueRouter({
 
 new Vue({
   el: '#app',
-  router,
+  router,  //把router注入到所有子组件，通过this.$router访问
+  store:Store,
   template: '<Layout/>',
   components: { Layout }
 })

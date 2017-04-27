@@ -2,17 +2,17 @@
  <div class="index-wrap">
     <div class="index-left">
         <div class="index-left-block">
-        	 <h2>全部产品</h2>      	 
+        	 <h2>商品分类</h2>      	 
         	 <template v-for="product in productList">
-        	 	 <h3>{{product.title}}</h3>
-        	 	 <ul>
-        	 	 	<li v-for="item in product.list">
-        	 	 		<a v-bind:href="item.url">{{item.name}}</a>
-        	 	 		<span v-if="item.hot" class="hot-tag">HOT</span>
-        	 	 	</li>
-        	 	 </ul>
-        	 	 <!-- 条件渲染，是最后一项则为假，该div不渲染 -->
-        	 	 <div v-if="!product.last" class="hr"></div>
+          	 	<!--  <h3>{{product.title}}</h3> -->
+          	 	 <ul>
+          	 	 	<li v-for="item in product.list">
+          	 	 		<a v-bind:href="item.url">{{item.name}}</a>
+          	 	 		<!-- <span v-if="item.hot" class="hot-tag">HOT</span> -->
+          	 	 	</li>
+          	 	 </ul>
+          	 	 <!-- 条件渲染，是最后一项则为假，该div不渲染 -->
+          	 	 <div v-if="!product.last" class="hr"></div>
         	 </template>
         </div>
 
@@ -34,13 +34,12 @@
                              {'line-last' : index%2 !== 0},
                              'index-board-' + item.id
                             ]" 
-
     		>
     			<div class="index-board-item-inner">
     				 <h2>{{item.title}}</h2>
     				 <p>{{item.description}}</p>
     				 <div class="index-board-button">
-    				 	<a href="" class="button">立即购买</a>
+    			   	 	<a href="" class="button">立即购买</a>
     				 </div>
     			</div>
     		</div>
@@ -54,9 +53,9 @@
 import slideShow from '../components/slideShow'
 
 export default {
-    components :{
-    	slideShow
-    },
+  components :{
+  	slideShow
+  },
 
 	//created 表示组件创建后执行该函数
 	created: function () {
@@ -70,7 +69,6 @@ export default {
         })
 	},
   methods: {
-   
   },
 	data () {
 		 return {
@@ -126,55 +124,33 @@ export default {
 		 	           toKey: 'publish',
 		 	           saleout: false
 		 	         }
-		 	  ],
+		 	 ],
 		 	 newsList: [],
-		     productList: {
+		   productList: {
 		     	pc: {
-                   title:'PC产品',
-                   list: [
-                       {
-                         name: '数据统计',
-                         url: 'http://starcraft.com'
-                       },
-                       {
-                         name: '数据预测',
-                         url: 'http://warcraft.com'
-                       },
-                       {
-                         name: '流量分析',
-                         url: 'http://overwatch.com',
-                         hot: true
-                       },
-                       {
-                         name: '广告发布',
-                         url: 'http://hearstone.com'
-                       }
-                   ]
-		     	},
-		     	app: {
-                    title:'手机应用类',
-                    last: true,
-                    list: [
-                        {
-                          name: '91助手',
-                          url: 'http://weixin.com'
-                        },
-                        {
-                          name: '产品助手',
-                          url: 'http://twitter.com',
-                          hot: true
-                        },
-                        {
-                          name: '智能地图',
-                          url: 'http://maps.com'
-                        },
-                        {
-                          name: '团队语音',
-                          url: 'http://phone.com'
-                        }
-                    ]
+                 title:'PC产品',
+                 list: [
+                     {
+                       name: '健康保健',
+                       url: 'http://starcraft.com'
+                     },
+                     {
+                       name: '健康生活',
+                       url: 'http://warcraft.com'
+                     },
+                     {
+                       name: '健康运动',
+                       url: 'http://overwatch.com',
+                       hot: true
+                     },
+                     {
+                       name: '健康医疗',
+                       url: 'http://hearstone.com'
+                     }
+                 ]
 		     	}
-		     }
+		   }
+
 		 }
 	}
 }
@@ -207,7 +183,7 @@ export default {
   background: #4fc08d;
   color: #fff;
   padding: 10px 15px;
-  margin-bottom: 20px;
+  
 }
 .index-left-block h3 {
   padding: 0 15px 5px 15px;
@@ -218,7 +194,7 @@ export default {
   padding: 10px 15px;
 }
 .index-left-block li {
-  padding: 5px;
+  padding: 6px;
 }
 .index-board-list {
   overflow: hidden;
